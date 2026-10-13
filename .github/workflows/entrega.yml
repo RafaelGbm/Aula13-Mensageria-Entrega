@@ -39,3 +39,11 @@ jobs:
           registry: ghcr.io
           username: "${{ github.actor }}"
           password: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Publicar web
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: LojaGraphQL.Api/Dockerfile
+          push: true
+          tags: ${{ steps.image.outputs.base }}/web:${{ steps.image.outputs.version }}
+          labels: org.opencontainers.image.source=https://github.com/${{ github.repository }}
