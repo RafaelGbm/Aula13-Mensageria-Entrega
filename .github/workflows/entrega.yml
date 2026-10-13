@@ -47,3 +47,14 @@ jobs:
           push: true
           tags: ${{ steps.image.outputs.base }}/web:${{ steps.image.outputs.version }}
           labels: org.opencontainers.image.source=https://github.com/${{ github.repository }}
+      - name: Publicar worker
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: LojaGraphQL.Worker/Dockerfile
+          push: true
+          tags: ${{ steps.image.outputs.base }}/worker:${{ steps.image.outputs.version }}
+          labels: org.opencontainers.image.source=https://github.com/${{ github.repository }}
+      - name: Resumo da entrega
+        run: |
+          echo "Namespace ${{ github.repository }} — versao ${{ steps.image.outputs.version }}" >> "$GITHUB_STEP_SUMMARY"
