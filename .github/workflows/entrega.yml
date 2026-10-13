@@ -19,6 +19,12 @@ jobs:
       - name: Testes da loja
         run: dotnet test LojaProducao.slnx -c Release --verbosity quiet
 
-  # LAB-002 e LAB-003: adicionar publish, dependente de tests.
-  # O workflow atual executa testes, mas ainda NAO publica imagens.
-  # Consulte README e a branch gabarito do template original.
+  publish:
+    needs: tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v6
+      - uses: docker/setup-buildx-action@v3
